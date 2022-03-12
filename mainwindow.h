@@ -15,6 +15,29 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_fillDataButton_clicked();
+
+    void on_moveToAlgotythmsButton_clicked();
+
+    void on_exitButton_clicked();
+
+    void on_autoFillDataButton_clicked();
+
+    void on_manualFillDataButton_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_backButton_clicked();
+
+    void on_backButton_2_clicked();
+
+    void on_backButton_3_clicked();
+
+    void on_backButton_4_clicked();
+
+    void on_backButton_5_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
