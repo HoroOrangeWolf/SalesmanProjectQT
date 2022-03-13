@@ -91,7 +91,7 @@ void MainWindow::on_generateButton_clicked()
     for(unsigned long long i = 0; i < stringText.length() && isNumber; ++i)
         isNumber = stringText[i] >= '0' && stringText[i] <= '9';
 
-    if(!isNumber)
+    if(!isNumber || text.length() == 0)
     {
         QMessageBox messageBox;
         messageBox.critical(0,"Error","Invalid number!");
@@ -157,5 +157,59 @@ void MainWindow::on_generateButton_clicked()
     QMessageBox messageBox;
     messageBox.information(0, "Info", "Generated points successfully!");
     messageBox.setFixedSize(500,200);
+}
+
+
+void MainWindow::on_addButton_clicked()
+{
+
+    std::string xtext = ui->xInput->text().toStdString();
+    std::string ytext = ui->yInput->text().toStdString();
+
+    bool isNumber = true;
+
+    for(unsigned long long i = 0; i < xtext.length() && isNumber; ++i)
+        isNumber = (xtext[i] >= '0' && xtext[i] <= '9') || (i != 0 && i != (xtext.length() - 1) && xtext[i]=='.');
+
+    for(unsigned long long i = 0; i < ytext.length() && isNumber; ++i)
+        isNumber = (ytext[i] >= '0' && ytext[i] <= '9') || (i != 0 && i != (ytext.length() - 1) && ytext[i]=='.');
+
+    if(!isNumber || xtext.length() == 0 || ytext.length() == 0)
+    {
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Invalid number!");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
+    double x,y;
+
+    std::stringstream stream;
+
+    stream << xtext;
+
+    stream >> x;
+
+    stream.clear();
+    stream.str("");
+
+    stream << ytext;
+    stream >> y;
+
+    Point p(x,y);
+
+    PointContainer::getContainer()->push_back(p);
+
+    QString container = "";
+
+    container.append("X: ");
+    container.append(ui->xInput->text());
+
+    container.append(" Y: ");
+    container.append(ui->yInput->text());
+
+    ui->listWidget->addItem(container);
+
+    ui->xInput->clear();
+    ui->yInput->clear();
 }
 
