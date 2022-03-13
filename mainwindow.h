@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
+#include <QDebug>
+#include <sstream>
+#include "pointcontainer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,6 +41,8 @@ private slots:
     void on_backButton_4_clicked();
 
     void on_backButton_5_clicked();
+
+    void on_generateButton_clicked();
 
 private:
     Ui::MainWindow *ui;

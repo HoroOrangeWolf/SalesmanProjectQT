@@ -78,3 +78,84 @@ void MainWindow::on_backButton_5_clicked()
     ui->stackedWidget->setCurrentIndex(4);
 }
 
+
+void MainWindow::on_generateButton_clicked()
+{
+    QString text = ui->pointsNumber->text();
+
+    std::string stringText = text.toStdString();
+
+    bool isNumber = true;
+    int numberOfPoints = 0;
+
+    for(unsigned long long i = 0; i < stringText.length() && isNumber; ++i)
+        isNumber = stringText[i] >= '0' && stringText[i] <= '9';
+
+    if(!isNumber)
+    {
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Invalid number!");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
+
+    std::stringstream stream;
+
+    stream << stringText;
+    stream >> numberOfPoints;
+
+    if(numberOfPoints < 0){
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Invalid number!");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
+
+    std::vector<Point> *points = PointContainer::getContainer();
+
+    points->clear();
+
+    srand(time(NULL));
+    QListWidget *list = ui->listWidget;
+    list->clear();
+
+    for(int i = 0; i < numberOfPoints; ++i){
+
+        double x = (double)rand()/RAND_MAX;
+        double y = (double)rand()/RAND_MAX;
+        x = x * 1001;
+        y = y * 1001;
+
+        Point p(x,y);
+        points->push_back(p);
+        QString container = "";
+        std::string buff = "";
+
+        stream.clear();
+        stream.str("");
+
+        container.append("X: ");
+
+        stream << (double)((int)(x*100))/100;
+        stream >> buff;
+        container.append(buff.c_str());
+
+        stream.clear();
+        stream.str("");
+
+        container.append(" Y: ");
+
+        buff = "";
+
+        stream << (double)((int)(y*100))/100;
+        stream >> buff;
+
+        container.append(buff.c_str());
+
+        list->addItem(container);
+    }
+    QMessageBox messageBox;
+    messageBox.information(0, "Info", "Generated points successfully!");
+    messageBox.setFixedSize(500,200);
+}
+
