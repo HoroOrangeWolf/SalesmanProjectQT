@@ -6,6 +6,9 @@
 #include <QDebug>
 #include <sstream>
 #include "pointcontainer.h"
+#include "road.h"
+#include "algorithmsrunner.h"
+#include <QThread>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,7 +17,9 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+private:
+    static AlgorithmsRunner *runner;
+    QThread *thread;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -45,6 +50,10 @@ private slots:
     void on_generateButton_clicked();
 
     void on_addButton_clicked();
+
+    void addTimes(QString name, Road *road);
+
+    void on_startButton_clicked();
 
 private:
     Ui::MainWindow *ui;

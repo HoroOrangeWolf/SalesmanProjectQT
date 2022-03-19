@@ -5,6 +5,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    this->thread = new QThread(this);
+    this->runner = new AlgorithmsRunner();
+    this->runner->moveToThread(this->thread);
+
+    connect(this->runner, SIGNAL(sendDataToMain(QString, Road *)), this, SLOT(addTimes(QString, Road *)));
+    connect(this->thread, SIGNAL(destroyed()), this->runner, SLOT(deleteLater()));
+
     ui->setupUi(this);
 }
 
@@ -159,6 +166,19 @@ void MainWindow::on_generateButton_clicked()
     messageBox.setFixedSize(500,200);
 }
 
+void MainWindow::addTimes(QString name, Road *road){
+    QListWidget *widget = ui->valueList;
+
+    long long elaps = road->endTime - road->startTime;
+
+    QString time = "Time: ";
+
+    time += QString::number(elaps);
+    time += " ms";
+
+    widget->addItem(name);
+    widget->addItem(time);
+}
 
 void MainWindow::on_addButton_clicked()
 {
@@ -212,4 +232,15 @@ void MainWindow::on_addButton_clicked()
     ui->xInput->clear();
     ui->yInput->clear();
 }
+
+
+void MainWindow::on_startButton_clicked()
+{
+
+    QThread *th = QThread::create([] {runner->runSingleAlgorithm("BruteForce"); });
+
+    th->start();
+}
+
+AlgorithmsRunner *MainWindow::runner = NULL;
 

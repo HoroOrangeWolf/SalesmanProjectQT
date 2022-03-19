@@ -9,15 +9,21 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    algorithms.cpp \
+    algorithmsrunner.cpp \
     main.cpp \
     mainwindow.cpp \
     point.cpp \
-    pointcontainer.cpp
+    pointcontainer.cpp \
+    road.cpp
 
 HEADERS += \
+    algorithms.h \
+    algorithmsrunner.h \
     mainwindow.h \
     point.h \
-    pointcontainer.h
+    pointcontainer.h \
+    road.h
 
 FORMS += \
     mainwindow.ui
