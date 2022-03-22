@@ -15,6 +15,7 @@ private:
 public:
     Algorithms();
     static void BruteForce(Road *road);
+    static double computeDistance(Road *road);
 };
 
 #endif // ALGORITHMS_H

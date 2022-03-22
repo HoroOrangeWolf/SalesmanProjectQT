@@ -9,6 +9,9 @@
 #include "road.h"
 #include "algorithmsrunner.h"
 #include <QThread>
+#include "map.h"
+#include <cmath>
+#include <QMouseEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,13 +23,20 @@ class MainWindow : public QMainWindow
 private:
     static AlgorithmsRunner *runner;
     QThread *thread;
+    Map map;
+    bool isMouseOnTheMap(int x1, int y1);
+    Point getRealPositionOnTheMap(int x1, int y1);
+    int getPointNumberFromMap(int x,int y);
+    int currentItemHold = -1;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
     void on_fillDataButton_clicked();
-
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     void on_moveToAlgotythmsButton_clicked();
 
     void on_exitButton_clicked();
@@ -52,6 +62,8 @@ private slots:
     void on_addButton_clicked();
 
     void addTimes(QString name, Road *road);
+
+    void onMapClicked();
 
     void on_startButton_clicked();
 

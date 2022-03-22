@@ -13,6 +13,7 @@ SOURCES += \
     algorithmsrunner.cpp \
     main.cpp \
     mainwindow.cpp \
+    map.cpp \
     point.cpp \
     pointcontainer.cpp \
     road.cpp
@@ -21,6 +22,7 @@ HEADERS += \
     algorithms.h \
     algorithmsrunner.h \
     mainwindow.h \
+    map.h \
     point.h \
     pointcontainer.h \
     road.h

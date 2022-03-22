@@ -1,5 +1,6 @@
 #include "algorithms.h"
 #include <QDebug>
+#include <cmath>
 Algorithms::Algorithms()
 {
 
@@ -18,6 +19,17 @@ unsigned long long Algorithms::silnia(int n){
 
         return number;
     }
+}
+
+double Algorithms::computeDistance(Road *road){
+    double distance = 0.f;
+    for(int i = 0; i < road->count - 1; ++i){
+        Point p1 = road->points[road->computedRoad[i]];
+        Point p2 = road->points[road->computedRoad[i + 1]];
+        distance += sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX()) + (p1.getY() - p2.getY())*(p1.getY() - p2.getY()));
+    }
+
+    return distance;
 }
 
 void Algorithms::next_permutation(int *first, int n){
@@ -60,7 +72,7 @@ void Algorithms::BruteForce(Road *road){
        Point *tab = road->points;
        int *computedRoad=road->computedRoad;
 
-       double siln=silnia(N-1);
+       unsigned long long  siln=silnia(N-1);
 
        double **distance = new double * [N];
 
@@ -72,7 +84,7 @@ void Algorithms::BruteForce(Road *road){
        for (i = 0; i < N && road->work; i++)
            for (q = 0; q < N; q++)
                distance[i][q] = sqrt((tab[i].getX() - tab[q].getX())*(tab[i].getX() - tab[q].getX()) + (tab[i].getY() - tab[q].getY())*(tab[i].getY() - tab[q].getY()));
-       qDebug() << "Ok2";
+
        if(!road->work)
        {
            for(i=0;i<N;i++)
@@ -81,7 +93,7 @@ void Algorithms::BruteForce(Road *road){
            delete [] distance;
            return;
        }
-       qDebug() << "Ok3";
+
        long double total_distance = 0;
 
        int *visted = new int [N];
@@ -96,14 +108,12 @@ void Algorithms::BruteForce(Road *road){
 
        for (i = 0; i < N - 1; i++)
            total_distance += distance[i][i + 1];
-       qDebug() << "Ok4";
-
 
        long double total_distance2 = 0;
 
        for(q=0;q<siln && road->work;q++)
        {
-           next_permutation(visted+1, N-1);
+           next_permutation(visted+1, N-2);
 
            total_distance2 = 0;
 
@@ -117,8 +127,6 @@ void Algorithms::BruteForce(Road *road){
                    *(road_b + i) = *(visted + i);
            }
        }
-
-       qDebug() << "Ok5";
 
        if(!road->work)
        {

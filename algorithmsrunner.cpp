@@ -20,7 +20,7 @@ void AlgorithmsRunner::runSingleAlgorithm(QString name){
     for(int i = 0;i < road->count; ++i)
     {
         (road->points + i)->setX(container->at(i).getX());
-        (road->points + i)->setX(container->at(i).getY());
+        (road->points + i)->setY(container->at(i).getY());
     }
 
     Algorithms::BruteForce(road);

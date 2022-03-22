@@ -13,6 +13,47 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this->thread, SIGNAL(destroyed()), this->runner, SLOT(deleteLater()));
 
     ui->setupUi(this);
+
+    ui->image->setPixmap(map.getMap());
+}
+
+bool MainWindow::isMouseOnTheMap(int x1, int y1){
+    int point_x1, point_y1, point_x2, point_y2;
+
+    ui->image->geometry().getCoords(&point_x1, &point_y1, &point_x2, &point_y2);
+
+    return ui->stackedWidget->currentIndex() == 5 && x1 >= point_x1 && y1 >= point_y1 && x1 <= point_x2 && y1 <= point_y2;
+}
+
+Point MainWindow::getRealPositionOnTheMap(int x1, int y1){
+    Point p;
+
+    int point_x1, point_y1, point_x2, point_y2;
+
+    ui->image->geometry().getCoords(&point_x1, &point_y1, &point_x2, &point_y2);
+
+    p.setX(x1 - point_x1);
+    p.setY(y1 - point_y1);
+
+    return p;
+}
+
+int MainWindow::getPointNumberFromMap(int x, int y){
+    Point p1 = getRealPositionOnTheMap(x, y);
+
+
+    std::vector<Point> *points = PointContainer::getContainer();
+
+    for(unsigned long long i = 0; i < points->size(); ++i)
+    {
+        Point p2 = points->at(i);
+
+        double distance = sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX()) + (p1.getY() - p2.getY())*(p1.getY() - p2.getY()));
+        qDebug() << distance;
+        if(distance < 20.f)
+            return  i;
+    }
+    return -1;
 }
 
 MainWindow::~MainWindow()
@@ -20,6 +61,41 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::mouseMoveEvent(QMouseEvent *event){
+    int x = event->globalPosition().x(), y = event->globalPosition().y();
+
+    Point mouseP = getRealPositionOnTheMap(x, y);
+
+    if(this->currentItemHold != -1){
+
+         std::vector<Point> *points = PointContainer::getContainer();
+
+         Point &p = points->at(this->currentItemHold);
+
+         p.setX(mouseP.getX() - 10);
+         p.setY(mouseP.getY() - 30);
+
+         ui->image->setPixmap(map.getMap());
+    }
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event){
+    int x = event->globalPosition().x(), y = event->globalPosition().y();
+
+    if(isMouseOnTheMap(x, y)){
+
+        int number = getPointNumberFromMap(x - 10, y - 30);
+
+        if(number != -1){
+
+            this->currentItemHold = number;
+        }
+    }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event){
+    this->currentItemHold = -1;
+}
 
 void MainWindow::on_fillDataButton_clicked()
 {
@@ -164,6 +240,8 @@ void MainWindow::on_generateButton_clicked()
     QMessageBox messageBox;
     messageBox.information(0, "Info", "Generated points successfully!");
     messageBox.setFixedSize(500,200);
+
+    ui->image->setPixmap(map.getMap());
 }
 
 void MainWindow::addTimes(QString name, Road *road){
@@ -171,13 +249,22 @@ void MainWindow::addTimes(QString name, Road *road){
 
     long long elaps = road->endTime - road->startTime;
 
-    QString time = "Time: ";
+    QString time = "Time: ", distance = "Distance: ";
 
     time += QString::number(elaps);
     time += " ms";
 
+    double computedDistance = ((int)Algorithms::computeDistance(road)*100)/100;
+
+    distance += QString::number(computedDistance);
+
     widget->addItem(name);
     widget->addItem(time);
+    widget->addItem(distance);
+
+    this->map.addRoad(*road);
+
+    ui->image->setPixmap(this->map.getMap());
 }
 
 void MainWindow::on_addButton_clicked()
@@ -240,6 +327,10 @@ void MainWindow::on_startButton_clicked()
     QThread *th = QThread::create([] {runner->runSingleAlgorithm("BruteForce"); });
 
     th->start();
+}
+
+void MainWindow::onMapClicked(){
+    qDebug() << "Dziala";
 }
 
 AlgorithmsRunner *MainWindow::runner = NULL;
