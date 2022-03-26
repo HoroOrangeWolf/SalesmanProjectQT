@@ -335,3 +335,95 @@ void MainWindow::onMapClicked(){
 
 AlgorithmsRunner *MainWindow::runner = NULL;
 
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    std::vector<Point> *points = PointContainer::getContainer();
+    std::ofstream file;
+
+    file.open("data.txt");
+
+    for(unsigned long long i = 0; i < points->size(); ++i)
+    {
+        Point point = points->at(i);
+        file << point.getX() << " " << point.getY() << "\n";
+    }
+
+    file.close();
+
+    QMessageBox messageBox;
+    messageBox.information(0, "Info", "Zapisano punkty do pliku!");
+    messageBox.setFixedSize(500,200);
+}
+
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    std::ifstream file;
+    file.open("data.txt");
+
+    double x, y;
+    int count = 0;
+    std::vector<Point> *points = PointContainer::getContainer();
+
+    points->clear();
+    ui->listWidget->clear();
+    while(file >> x >> y)
+    {
+        points->push_back(Point(x,y));
+        QString container = "";
+
+        container.append("X: ");
+        container.append(QString::number(x));
+
+        container.append(" Y: ");
+        container.append(QString::number(y));
+
+        ui->listWidget->addItem(container);
+        count++;
+    }
+
+    QMessageBox messageBox;
+    messageBox.information(0, "Info", "Wczytno " + QString::number(count) + " punktów!");
+    messageBox.setFixedSize(500,200);
+
+    file.close();
+}
+
+
+void MainWindow::on_pushButton_8_clicked()
+{
+    int index = ui->listWidget->currentIndex().row();
+
+    if(index==-1)
+    {
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Nie wybrano punktu do usunięcia!");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
+
+    std::vector<Point> *points = PointContainer::getContainer();
+
+    points->erase(points->begin() + index);
+    ui->listWidget->clear();
+
+    for(unsigned long long i = 0; i < points->size(); ++i){
+        Point point = points->at(i);
+        QString container = "";
+
+        container.append("X: ");
+        container.append(QString::number(point.getX()));
+
+        container.append(" Y: ");
+        container.append(QString::number(point.getY()));
+
+        ui->listWidget->addItem(container);
+    }
+
+    QMessageBox messageBox;
+    messageBox.information(0, "Info", "Usunięto punkt poprawnie!");
+    messageBox.setFixedSize(500,200);
+
+}
+

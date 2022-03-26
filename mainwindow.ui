@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1114</width>
-    <height>557</height>
+    <width>1124</width>
+    <height>1079</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="mainMenuPage">
        <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -82,6 +82,32 @@
             </property>
             <property name="text">
              <string>Uzupełnij dane</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_6">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Załaduj dane z pliku</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_7">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Zapisz dane do pliku</string>
             </property>
            </widget>
           </item>
@@ -355,7 +381,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0">
+         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0">
           <property name="leftMargin">
            <number>100</number>
           </property>
@@ -384,6 +410,19 @@
             </property>
             <property name="text">
              <string>Dodaj</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_8">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Usuń</string>
             </property>
            </widget>
           </item>
@@ -671,7 +710,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1114</width>
+     <width>1124</width>
      <height>21</height>
     </rect>
    </property>

@@ -12,6 +12,7 @@
 #include "map.h"
 #include <cmath>
 #include <QMouseEvent>
+#include <fstream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -66,6 +67,12 @@ private slots:
     void onMapClicked();
 
     void on_startButton_clicked();
+
+    void on_pushButton_7_clicked();
+
+    void on_pushButton_6_clicked();
+
+    void on_pushButton_8_clicked();
 
 private:
     Ui::MainWindow *ui;
