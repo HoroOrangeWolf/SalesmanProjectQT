@@ -15,7 +15,7 @@ private:
     std::vector<Road> roads;
 public:
     Map();
-    QPixmap& getMap();
+    QPixmap& getMap(int width, int height);
     void addRoad(Road r);
     void clear();
 };

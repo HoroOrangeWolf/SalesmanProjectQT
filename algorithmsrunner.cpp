@@ -1,13 +1,14 @@
 #include "algorithmsrunner.h"
 #include <chrono>
 #include <thread>
+
 AlgorithmsRunner::AlgorithmsRunner(QObject *parent)
     : QObject{parent}
 {
 
 }
 
-void AlgorithmsRunner::runSingleAlgorithm(QString name){
+void AlgorithmsRunner::runSingleAlgorithm(AlghoritmType name){
     Road *road = new Road();
     road -> startTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
@@ -23,7 +24,15 @@ void AlgorithmsRunner::runSingleAlgorithm(QString name){
         (road->points + i)->setY(container->at(i).getY());
     }
 
-    Algorithms::nearestNeighbor(road);
+    switch(name){
+        case AlghoritmType::BRUTE_FORCE:
+            Algorithms::BruteForce(road);
+            break;
+        case AlghoritmType::NEAREST_NEIGHBOUR:
+            Algorithms::nearestNeighbor(road);
+            break;
+    }
+
     road -> endTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     emit sendDataToMain("NerestNeighbour", road);
 }

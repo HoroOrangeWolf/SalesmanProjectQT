@@ -14,7 +14,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    ui->image->setPixmap(map.getMap());
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+
+    ui->image->setPixmap(map.getMap(ui->image->geometry().width(), ui->image->geometry().height()));
+}
+
+void MainWindow::resizeEvent(QResizeEvent*)
+{
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+
+    ui->image->setPixmap(map.getMap(width , height ));
 }
 
 bool MainWindow::isMouseOnTheMap(int x1, int y1){
@@ -30,6 +41,7 @@ Point MainWindow::getRealPositionOnTheMap(int x1, int y1){
 
     int point_x1, point_y1, point_x2, point_y2;
 
+
     ui->image->geometry().getCoords(&point_x1, &point_y1, &point_x2, &point_y2);
 
     p.setX(x1 - point_x1);
@@ -39,7 +51,13 @@ Point MainWindow::getRealPositionOnTheMap(int x1, int y1){
 }
 
 int MainWindow::getPointNumberFromMap(int x, int y){
+    double realWidth = (double) (ui->image->pixmap().width() - 40)/1000;
+    double realHeight = (double) (ui->image->pixmap().height() - 40)/1000;
+
     Point p1 = getRealPositionOnTheMap(x, y);
+
+    p1.setX(p1.getX()*realWidth - 20*realHeight);
+    p1.setY(p1.getY()*realWidth - 40*realHeight);
 
 
     std::vector<Point> *points = PointContainer::getContainer();
@@ -48,7 +66,7 @@ int MainWindow::getPointNumberFromMap(int x, int y){
     {
         Point p2 = points->at(i);
 
-        double distance = sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX()) + (p1.getY() - p2.getY())*(p1.getY() - p2.getY()));
+        double distance = sqrt((p1.getX() - p2.getX()*realWidth)*(p1.getX() - p2.getX()*realWidth) + (p1.getY() - p2.getY()*realHeight)*(p1.getY()  - p2.getY()*realHeight));
         qDebug() << distance;
         if(distance < 20.f)
             return  i;
@@ -66,16 +84,22 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event){
 
     Point mouseP = getRealPositionOnTheMap(x, y);
 
+    double width = (double)ui->image->pixmap().width()/1000;
+    double height = (double)ui->image->pixmap().height()/1000;
+
+
+    qDebug() << "MouseX: " << mouseP.getX();
+
     if(this->currentItemHold != -1){
 
          std::vector<Point> *points = PointContainer::getContainer();
 
          Point &p = points->at(this->currentItemHold);
 
-         p.setX(mouseP.getX() - 10);
-         p.setY(mouseP.getY() - 30);
+         p.setX(mouseP.getX() - 20*width);
+         p.setY(mouseP.getY() - 40*height);
 
-         ui->image->setPixmap(map.getMap());
+         ui->image->setPixmap(map.getMap(1000, 1000));
     }
 }
 
@@ -84,10 +108,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
 
     if(isMouseOnTheMap(x, y)){
 
-        int number = getPointNumberFromMap(x - 10, y - 30);
+        int number = getPointNumberFromMap(x, y);
 
         if(number != -1){
-
             this->currentItemHold = number;
         }
     }
@@ -129,6 +152,7 @@ void MainWindow::on_manualFillDataButton_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
+    current = AlghoritmType::BRUTE_FORCE;
     ui->stackedWidget->setCurrentIndex(5);
 }
 
@@ -158,6 +182,11 @@ void MainWindow::on_backButton_4_clicked()
 
 void MainWindow::on_backButton_5_clicked()
 {
+    map.clear();
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+
+    ui->image->setPixmap(map.getMap(width , height ));
     ui->stackedWidget->setCurrentIndex(4);
 }
 
@@ -241,7 +270,10 @@ void MainWindow::on_generateButton_clicked()
     messageBox.information(0, "Info", "Generated points successfully!");
     messageBox.setFixedSize(500,200);
 
-    ui->image->setPixmap(map.getMap());
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+
+    ui->image->setPixmap(map.getMap(width , height ));
 }
 
 void MainWindow::addTimes(QString name, Road *road){
@@ -264,7 +296,10 @@ void MainWindow::addTimes(QString name, Road *road){
     this->map.clear();
     this->map.addRoad(*road);
 
-    ui->image->setPixmap(this->map.getMap());
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+
+    ui->image->setPixmap(map.getMap(width , height ));
 }
 
 void MainWindow::on_addButton_clicked()
@@ -324,13 +359,13 @@ void MainWindow::on_addButton_clicked()
 void MainWindow::on_startButton_clicked()
 {
 
-    QThread *th = QThread::create([] {runner->runSingleAlgorithm("BruteForce"); });
+    AlghoritmType tp = current;
+    QThread *th = QThread::create([tp] {runner->runSingleAlgorithm(tp); });
 
     th->start();
 }
 
 void MainWindow::onMapClicked(){
-    qDebug() << "Dziala";
 }
 
 AlgorithmsRunner *MainWindow::runner = NULL;
@@ -389,7 +424,10 @@ void MainWindow::on_pushButton_6_clicked()
 
     file.close();
 
-    this->ui->image->setPixmap(map.getMap());
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+
+    ui->image->setPixmap(map.getMap(width , height ));
 }
 
 
@@ -427,12 +465,16 @@ void MainWindow::on_pushButton_8_clicked()
     messageBox.information(0, "Info", "Usunięto punkt poprawnie!");
     messageBox.setFixedSize(500,200);
 
-    this->ui->image->setPixmap(map.getMap());
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+
+    ui->image->setPixmap(map.getMap(width , height ));
 }
 
 
 void MainWindow::on_pushButton_2_clicked()
 {
-
+    current = AlghoritmType::NEAREST_NEIGHBOUR;
+    ui->stackedWidget->setCurrentIndex(5);
 }
 

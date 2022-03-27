@@ -28,7 +28,9 @@ private:
     bool isMouseOnTheMap(int x1, int y1);
     Point getRealPositionOnTheMap(int x1, int y1);
     int getPointNumberFromMap(int x,int y);
+    void resizeEvent(QResizeEvent*) override;
     int currentItemHold = -1;
+    AlghoritmType current;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();

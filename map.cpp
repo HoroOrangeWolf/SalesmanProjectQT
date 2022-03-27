@@ -6,9 +6,12 @@ Map::Map()
 
 }
 
-QPixmap& Map::getMap(){
+QPixmap& Map::getMap(int width, int height){
 
-    this->image = QPixmap(1000, 1000);
+    double trueWidth = (double)width/1000,
+            trueHeight = (double)height/1000;
+
+    this->image = QPixmap(width, height);
 
     this->image.fill(QColor::fromRgb(255, 255, 255));
 
@@ -31,13 +34,13 @@ QPixmap& Map::getMap(){
 
         for(int q = 0; q < road.count - 1; q++){
             Point p1, p2;
-            qDebug() << road.computedRoad[q];
+
             p1 = points->at(road.computedRoad[q]);
             p2 = points->at(road.computedRoad[q + 1]);
 
             QLineF single;
-            single.setP1(QPointF(p1.getX(), p1.getY()));
-            single.setP2(QPointF(p2.getX(), p2.getY()));
+            single.setP1(QPointF(p1.getX()*trueWidth, p1.getY()*trueHeight));
+            single.setP2(QPointF(p2.getX()*trueWidth, p2.getY()*trueHeight));
 
             lines[q] = single;
         }
@@ -55,10 +58,10 @@ QPixmap& Map::getMap(){
 
         QRectF rect;
         Point &p = points->at(i);
-        rect.setX(20);
-        rect.setY(20);
+        rect.setX(20*trueWidth);
+        rect.setY(20*trueHeight);
 
-        rect.moveTo(p.getX() + 10, p.getY() + 10);
+        rect.moveTo(p.getX()*trueWidth + 10*trueWidth, p.getY()*trueHeight + 10*trueHeight);
 
         engine->drawEllipse(rect);
     }
@@ -73,6 +76,11 @@ void Map::addRoad(Road r){
 }
 
 void Map::clear(){
+    for(unsigned i=0; i < this->roads.size(); ++i){
+        Road road = this->roads.at(i);
+        delete [] road.computedRoad;
+        delete [] road.points;
+    }
     this->roads.clear();
 }
 
