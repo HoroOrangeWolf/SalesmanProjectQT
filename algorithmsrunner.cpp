@@ -23,7 +23,7 @@ void AlgorithmsRunner::runSingleAlgorithm(QString name){
         (road->points + i)->setY(container->at(i).getY());
     }
 
-    Algorithms::BruteForce(road);
+    Algorithms::nearestNeighbor(road);
     road -> endTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-    emit sendDataToMain("Brute force", road);
+    emit sendDataToMain("NerestNeighbour", road);
 }

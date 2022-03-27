@@ -12,9 +12,11 @@ private:
     static void reverse(int *first, int i, int j);
     static void next_permutation(int *first, int n);
     static void swap1(int *a, int i, int j);
+    static bool contain(const int q, int *visited, const int n);
 public:
     Algorithms();
     static void BruteForce(Road *road);
+    static void nearestNeighbor(Road *road);
     static double computeDistance(Road *road);
 };
 

@@ -48,7 +48,7 @@ QPixmap& Map::getMap(){
     for(unsigned long long i = 0; i < points->size(); ++i)
     {
         p.setBrush(Qt::red);
-        if(i == 0 || (points->size() - 1) == i)
+        if(i == 0)
             p.setBrush(Qt::green);
 
         qDebug() << "";

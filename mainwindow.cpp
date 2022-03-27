@@ -261,7 +261,7 @@ void MainWindow::addTimes(QString name, Road *road){
     widget->addItem(name);
     widget->addItem(time);
     widget->addItem(distance);
-
+    this->map.clear();
     this->map.addRoad(*road);
 
     ui->image->setPixmap(this->map.getMap());
@@ -388,6 +388,8 @@ void MainWindow::on_pushButton_6_clicked()
     messageBox.setFixedSize(500,200);
 
     file.close();
+
+    this->ui->image->setPixmap(map.getMap());
 }
 
 
@@ -424,6 +426,13 @@ void MainWindow::on_pushButton_8_clicked()
     QMessageBox messageBox;
     messageBox.information(0, "Info", "Usunięto punkt poprawnie!");
     messageBox.setFixedSize(500,200);
+
+    this->ui->image->setPixmap(map.getMap());
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
 
 }
 

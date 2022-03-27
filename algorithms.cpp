@@ -6,6 +6,114 @@ Algorithms::Algorithms()
 
 }
 
+bool Algorithms::contain(const int q, int *visited, const int n)
+{
+    int i;
+    for (i = 0; i < n; i++)
+        if (*(visited+i) == q)
+            return true;
+    return false;
+}
+
+
+void Algorithms::nearestNeighbor(Road *road) {
+    qDebug() << "3";
+
+    unsigned long long N = (unsigned long long) road->count;
+    Point *tab = road->points;
+
+    double **distance = new double * [N];
+
+    unsigned long long  i = 0, q = 0;
+
+    for (i = 0; i < N; i++)
+        distance[i] = new double [N];
+
+    qDebug() << "1";
+
+    if(!road->work)
+    {
+        for(i=0;i<N;i++)
+             delete [] distance[i];
+
+        delete [] distance;
+        return;
+    }
+
+    qDebug() << "2";
+
+    for (i = 0; i < N && road->work; i++)
+        for (q = 0; q < N; q++)
+            distance[i][q] = sqrt((tab[i].getX() - tab[q].getX())*(tab[i].getX() - tab[q].getX()) + (tab[i].getY() - tab[q].getY())*(tab[i].getY() - tab[q].getY()));
+
+    if(!road->work)
+    {
+        for(i=0;i<N;i++)
+             delete [] distance[i];
+
+        delete [] distance;
+        return;
+    }
+
+    int *visited = new int [N];
+
+    for (i = 0; i < N; i++){
+        *(visited + i) = 0;
+    }
+
+    if(!road->work)
+    {
+        for(i=0;i<N;i++)
+             delete [] distance[i];
+
+        delete [] visited;
+        delete [] distance;
+        return;
+    }
+
+    for (i = 0; i < N - 1 && road->work; i++) {
+        double najmniejsze = 0;
+        int bmc = 0;
+        for (q = 1; q < N; q++)
+        {
+            if (!Algorithms::contain(q, visited, N))
+            {
+                bmc = q;
+                break;
+            }
+            else
+                bmc = q;
+        }
+
+        najmniejsze = distance[bmc][visited[i]];
+        visited[i + 1] = bmc;
+
+        for (q = 1; q < N; q++)
+        {
+            if (contain(q, visited, N))
+                continue;
+            if (najmniejsze > distance[q][visited[i]])
+            {
+                najmniejsze = distance[q][visited[i]];
+                visited[i + 1] = q;
+            }
+        }
+    }
+
+    for (i = 0; i < N; i++) {
+        *(road->computedRoad + i) = *(visited + i);
+    }
+
+    delete [] visited;
+
+    for(i=0;i<N;i++)
+        delete [] distance[i];
+
+    delete [] distance;
+
+    road->isDone = true;
+}
+
 unsigned long long Algorithms::silnia(int n){
 
     if(n==0)
