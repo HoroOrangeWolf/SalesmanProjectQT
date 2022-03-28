@@ -24,7 +24,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="mainMenuPage">
        <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -542,7 +542,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Algorytm 3</string>
+             <string>Genetic</string>
             </property>
            </widget>
           </item>

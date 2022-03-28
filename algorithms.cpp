@@ -15,8 +15,264 @@ bool Algorithms::contain(const int q, int *visited, const int n)
     return false;
 }
 
+void Algorithms::swap(int *i, int *q){
+    int buffor=*i;
+    *i=*q;
+    *q=buffor;
+}
 
-void Algorithms::nearestNeighbor(Road *road) {
+int Algorithms::compare(const void *a, const void *b){
+    double omega=((struct array_struct *)a)->distance;
+    double alfa=((struct array_struct *)b)->distance;
+
+    return (omega>alfa) - (omega<alfa);
+}
+
+void Algorithms::Genetic(Road *road){
+    qDebug() << "3";
+
+    unsigned long long N = (unsigned long long) road->count;
+
+    Point *tab = road->points;
+
+    const int genetic=15;
+    struct array_struct array_struct[15];
+    unsigned long long q=0;
+    unsigned long long i=0;
+    int c=0;
+    int ls=0;
+    srand(time(NULL));
+    double **distance = new double * [N];
+
+    int *tester=NULL;
+
+    for (i = 0; i < N; i++)
+        distance[i] = new double [N];
+
+    for (i = 0; i < N && road->work; i++)
+        for (q = 0; q < N; q++)
+            distance[i][q] = sqrt((tab[i].getX() - tab[q].getX())*(tab[i].getX() - tab[q].getX()) + (tab[i].getY() - tab[q].getY())*(tab[i].getY() - tab[q].getY()));
+
+    if(!road->work)
+    {
+        for(i=0;i<N;i++)
+             delete [] distance[i];
+
+        delete [] distance;
+        return;
+    }
+
+    int **points = new int * [genetic];
+
+    for (i = 0; i < genetic; i++)
+    {
+        points[i] = new int [N];
+    }
+
+    if(!road->work)
+    {
+        for(i=0;i<N;i++)
+            delete [] distance[i];
+        for(i=0;i<genetic;i++)
+            delete [] points[i];
+
+        delete [] points;
+        delete [] distance;
+        return;
+    }
+
+    tester = new int [N];
+
+    for(i=0;i<genetic-3 && (road->work);i++)
+    {
+        for(q=0;q<N && (road->work);q++)
+            tester[q]=q;
+
+        points[i][0]=0;
+
+        for(q=1;q<N && (road->work);q++)
+        {
+            unsigned long long n=rand()%(N-q+1);
+            if(n==0)
+                n=1;
+            points[i][q]=tester[n];
+            if(n==(N-q))
+                tester[n]=NULL;
+            else
+                tester[n]=tester[N-q];
+
+        }
+        if(!road->work)
+        {
+            for(i=0;i<N;i++)
+                delete [] distance[i];
+            for(i=0;i<genetic;i++)
+                delete [] points[i];
+            delete [] points;
+            delete [] tester;
+            delete [] distance;
+            return;
+        }
+    }
+
+    if(!road->work)
+    {
+        for(i=0;i<N;i++)
+            delete [] distance[i];
+        for(i=0;i<genetic;i++)
+            delete [] points[i];
+        delete [] points;
+        delete [] tester;
+        delete [] distance;
+        return;
+    }
+
+    delete [] tester;
+
+    int counter = 0;
+
+    for(; counter<15 && (road->work); counter++)
+    {
+        i=12;
+        for(;i<genetic && (road->work);i++)
+        {
+            ls=rand()%i;
+            c=rand()%i;
+            while(c==ls )
+                c=rand()%i;
+
+            for(q=0;q<(unsigned long long)(N/2) && (road->work);q++)
+                points[i][q]=points[ls][q];
+
+            if(!road->work)
+            {
+                for(i=0;i<N;i++)
+                    delete [] distance[i];
+                for(i=0;i<genetic;i++)
+                    delete [] points[i];
+                delete [] points;
+                delete [] distance;
+                return;
+            }
+
+            unsigned long long ctd;
+            unsigned long long cts;
+            for(q=(int)(N/2) && (road->work);q<N;q++)
+            {
+               for(ctd=1;ctd<N && (road->work);ctd++)
+               {
+                   for(cts=1;cts<q && (road->work);cts++)
+                      if(points[c][ctd]==points[i][cts])
+                        break;
+                    if(!road->work)
+                    {
+                        for(i=0;i<N;i++)
+                            delete [] distance[i];
+                        delete [] distance;
+                        return;
+                    }
+
+                   if(cts==q)
+                     points[i][q]=points[c][ctd];
+               }
+               if(!road->work)
+               {
+                   for(i=0;i<N;i++)
+                       delete [] distance[i];
+                   delete [] distance;
+                   return;
+               }
+
+            }
+
+            if(!road->work)
+            {
+                for(i=0;i<N;i++)
+                    delete [] distance[i];
+                for(i=0;i<genetic;i++)
+                    delete [] points[i];
+                delete [] points;
+                delete [] distance;
+                return;
+            }
+        }
+
+        i=rand()%genetic;
+        swap(&points[i][rand()%(N-1)+1],&points[i][rand()%(N-1)+1]);
+
+        for(i=0;i<genetic && (road->work);i++)
+        {
+            double ualk=0;
+            array_struct[i].i=points[i];
+
+            for(q=0;q<N-1 && (road->work);q++)
+                ualk+=distance[points[i][q]][points[i][q+1]];
+
+            array_struct[i].distance=ualk;
+        }
+
+        qsort(&array_struct,15,sizeof(struct array_struct),compare);
+
+        for(i=0;i<12 && (road->work);i++)
+            for(q=0;q<N && (road->work);q++)
+                points[i][q]=array_struct[i].i[q];
+
+        if(!road->work)
+        {
+            for(i=0;i<N;i++)
+                delete [] distance[i];
+            for(i=0;i<genetic;i++)
+                delete [] points[i];
+            delete [] points;
+            delete [] distance;
+            return;
+        }
+
+    }
+
+    if(!road->work)
+    {
+        for(i=0;i<N;i++)
+            delete [] distance[i];
+        for(i=0;i<genetic;i++)
+            delete [] points[i];
+        delete [] points;
+        delete [] distance;
+        return;
+    }
+
+    for (i = 0; i < N && (road->work); i++){
+        qDebug() << array_struct[0].i[i];
+        (road)->computedRoad[i] = array_struct[0].i[i];
+    }
+
+    if(!road->work)
+    {
+        for(i=0;i<N;i++)
+            delete [] distance[i];
+        for(i=0;i<genetic;i++)
+            delete [] points[i];
+        delete [] points;
+        delete [] distance;
+        return;
+    }
+
+    qDebug() << "2";
+
+    for(i=0;i<N;i++)
+        delete [] distance[i];
+
+    for(i=0;i<genetic;i++)
+        delete [] points[i];
+
+    delete [] points;
+    delete [] distance;
+
+    road->isDone = true;
+}
+
+
+void Algorithms::NearestNeighbor(Road *road) {
     qDebug() << "3";
 
     unsigned long long N = (unsigned long long) road->count;

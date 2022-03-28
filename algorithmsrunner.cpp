@@ -29,7 +29,10 @@ void AlgorithmsRunner::runSingleAlgorithm(AlghoritmType name){
             Algorithms::BruteForce(road);
             break;
         case AlghoritmType::NEAREST_NEIGHBOUR:
-            Algorithms::nearestNeighbor(road);
+            Algorithms::NearestNeighbor(road);
+            break;
+        case AlghoritmType::GENETIC:
+            Algorithms::Genetic(road);
             break;
     }
 

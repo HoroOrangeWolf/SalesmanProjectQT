@@ -478,3 +478,10 @@ void MainWindow::on_pushButton_2_clicked()
     ui->stackedWidget->setCurrentIndex(5);
 }
 
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    current = AlghoritmType::GENETIC;
+    ui->stackedWidget->setCurrentIndex(5);
+}
+

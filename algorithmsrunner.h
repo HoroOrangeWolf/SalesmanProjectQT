@@ -9,7 +9,8 @@
 
 enum AlghoritmType{
     BRUTE_FORCE,
-    NEAREST_NEIGHBOUR
+    NEAREST_NEIGHBOUR,
+    GENETIC
 };
 
 class AlgorithmsRunner : public QObject
