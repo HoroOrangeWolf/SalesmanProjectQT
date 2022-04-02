@@ -8,8 +8,7 @@ AlgorithmsRunner::AlgorithmsRunner(QObject *parent)
 
 }
 
-void AlgorithmsRunner::runSingleAlgorithm(AlghoritmType name){
-    Road *road = new Road();
+void AlgorithmsRunner::runSingleAlgorithm(AlghoritmType name, Road *road){
     road -> startTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
     std::vector<Point> *container = PointContainer::getContainer();
@@ -24,18 +23,25 @@ void AlgorithmsRunner::runSingleAlgorithm(AlghoritmType name){
         (road->points + i)->setY(container->at(i).getY());
     }
 
+    QString algName = "";
+
     switch(name){
         case AlghoritmType::BRUTE_FORCE:
             Algorithms::BruteForce(road);
+            algName = "Brute Force";
             break;
         case AlghoritmType::NEAREST_NEIGHBOUR:
             Algorithms::NearestNeighbor(road);
+            algName = "Nearest Neighbour";
             break;
         case AlghoritmType::GENETIC:
             Algorithms::Genetic(road);
+            algName = "Genetic";
+            break;
+        default:
             break;
     }
 
     road -> endTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-    emit sendDataToMain("NerestNeighbour", road);
+    emit sendDataToMain(algName, road);
 }

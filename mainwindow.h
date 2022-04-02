@@ -23,7 +23,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 private:
     static AlgorithmsRunner *runner;
-    QThread *thread;
     Map map;
     bool isMouseOnTheMap(int x1, int y1);
     Point getRealPositionOnTheMap(int x1, int y1);
@@ -31,6 +30,10 @@ private:
     void resizeEvent(QResizeEvent*) override;
     int currentItemHold = -1;
     AlghoritmType current;
+    std::vector<Road*> roads;
+    Road *road = NULL;
+    QThread *thread = NULL;
+    bool isAllAlgorithmsRunning = false;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -79,6 +82,8 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_3_clicked();
+
+    void on_stopButton_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -14,10 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    int width = ui->image->geometry().width();
-    int height = ui->image->geometry().height();
 
-    ui->image->setPixmap(map.getMap(ui->image->geometry().width(), ui->image->geometry().height()));
+    ui->image->setPixmap(map.getMap(ui->image->geometry().height(), ui->image->geometry().height()));
 }
 
 void MainWindow::resizeEvent(QResizeEvent*)
@@ -51,22 +49,28 @@ Point MainWindow::getRealPositionOnTheMap(int x1, int y1){
 }
 
 int MainWindow::getPointNumberFromMap(int x, int y){
-    double realWidth = (double) (ui->image->pixmap().width() - 40)/1000;
-    double realHeight = (double) (ui->image->pixmap().height() - 40)/1000;
+//    double realWidth = (double) (ui->image->pixmap().width())/1000;
+//    double realHeight = (double) (ui->image->pixmap().height())/1000;
 
-    Point p1 = getRealPositionOnTheMap(x, y);
+    Point p = getRealPositionOnTheMap(x, y);
 
-    p1.setX(p1.getX()*realWidth - 20*realHeight);
-    p1.setY(p1.getY()*realWidth - 40*realHeight);
+    p.setX(p.getX() - 20);
+    p.setY(p.getY() - 40);
+
+    double width = ui->image->pixmap().width();
+    double height = ui->image->pixmap().height();
 
 
     std::vector<Point> *points = PointContainer::getContainer();
+
+    p.setX(p.getX() + p.getX()*((1000.f - width)/(1000.f - (1000.f - width))));
+    p.setY(p.getY() + p.getY()*((1000.f - height)/(1000.f - (1000.f - height))));
 
     for(unsigned long long i = 0; i < points->size(); ++i)
     {
         Point p2 = points->at(i);
 
-        double distance = sqrt((p1.getX() - p2.getX()*realWidth)*(p1.getX() - p2.getX()*realWidth) + (p1.getY() - p2.getY()*realHeight)*(p1.getY()  - p2.getY()*realHeight));
+        double distance = sqrt((p.getX() - p2.getX())*(p.getX() - p2.getX()) + (p.getY() - p2.getY())*(p.getY()  - p2.getY()));
         qDebug() << distance;
         if(distance < 20.f)
             return  i;
@@ -84,22 +88,29 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event){
 
     Point mouseP = getRealPositionOnTheMap(x, y);
 
-    double width = (double)ui->image->pixmap().width()/1000;
-    double height = (double)ui->image->pixmap().height()/1000;
-
-
-    qDebug() << "MouseX: " << mouseP.getX();
-
     if(this->currentItemHold != -1){
+
+        double width = ui->image->pixmap().width();
+        double height = ui->image->pixmap().height();
+
+        double widthRatio = (double)width/1000;
+        double heightRatio = (double)height/1000;
+
 
          std::vector<Point> *points = PointContainer::getContainer();
 
+
          Point &p = points->at(this->currentItemHold);
 
-         p.setX(mouseP.getX() - 20*width);
-         p.setY(mouseP.getY() - 40*height);
+         p.setX(mouseP.getX() - 20*(1.f - widthRatio));
+         p.setY(mouseP.getY() - 40*heightRatio);
 
-         ui->image->setPixmap(map.getMap(1000, 1000));
+         qDebug() << widthRatio;
+
+         p.setX(p.getX() + p.getX()*((1000.f - width)/(1000.f - (1000.f - width))));
+         p.setY(p.getY() + p.getY()*((1000.f - height)/(1000.f - (1000.f - height))));
+
+         ui->image->setPixmap(map.getMap(300, ui->image->height()));
     }
 }
 
@@ -182,7 +193,14 @@ void MainWindow::on_backButton_4_clicked()
 
 void MainWindow::on_backButton_5_clicked()
 {
+    if(road!= NULL && !road->isDone && road->work){
+        QMessageBox messageBox;
+        messageBox.information(0, "Info", "Poczekaj aż algorytm zakończy prace!");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
     map.clear();
+    ui->valueList->clear();
     int width = ui->image->geometry().width();
     int height = ui->image->geometry().height();
 
@@ -277,7 +295,13 @@ void MainWindow::on_generateButton_clicked()
 }
 
 void MainWindow::addTimes(QString name, Road *road){
+
     QListWidget *widget = ui->valueList;
+    if(!road->work){
+        QString buff = "Algorytm " + name + " zakończył swoją prace!";
+        widget->addItem(buff);
+        return;
+    }
 
     long long elaps = road->endTime - road->startTime;
 
@@ -359,10 +383,22 @@ void MainWindow::on_addButton_clicked()
 void MainWindow::on_startButton_clicked()
 {
 
-    AlghoritmType tp = current;
-    QThread *th = QThread::create([tp] {runner->runSingleAlgorithm(tp); });
+    if(PointContainer::getContainer()->empty())
+    {
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","Brak punktów dodanych do programu!");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
 
-    th->start();
+    AlghoritmType tp = current;
+
+    road = new Road();
+    Road *r = road;
+
+    thread = QThread::create([tp, r] {runner->runSingleAlgorithm(tp, r); });
+
+    thread->start();
 }
 
 void MainWindow::onMapClicked(){
@@ -483,5 +519,30 @@ void MainWindow::on_pushButton_3_clicked()
 {
     current = AlghoritmType::GENETIC;
     ui->stackedWidget->setCurrentIndex(5);
+}
+
+
+void MainWindow::on_stopButton_clicked()
+{
+    if(this->isAllAlgorithmsRunning){
+        return;
+    }
+
+    if(road == NULL){
+        QMessageBox messageBox;
+        messageBox.information(0, "Info", "Żaden algorytm nie pracuje teraz!");
+        messageBox.setFixedSize(500,200);
+    }else if(road->isDone){
+        QMessageBox messageBox;
+        messageBox.information(0, "Info", "Algorytm zakończył już swoją prace!");
+        messageBox.setFixedSize(500,200);
+    }else{
+        road->work = false;
+
+        QString container = "Kończenie pracy algorytmów... Prosze czekać...";
+
+        ui->valueList->addItem(container);
+    }
+
 }
 
