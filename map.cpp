@@ -78,8 +78,6 @@ void Map::addRoad(Road r){
 void Map::clear(){
     for(unsigned i=0; i < this->roads.size(); ++i){
         Road road = this->roads.at(i);
-        delete [] road.computedRoad;
-        delete [] road.points;
     }
     this->roads.clear();
 }

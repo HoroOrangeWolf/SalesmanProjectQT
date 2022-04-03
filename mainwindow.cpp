@@ -115,6 +115,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event){
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event){
+
     int x = event->globalPosition().x(), y = event->globalPosition().y();
 
     if(isMouseOnTheMap(x, y)){
@@ -122,6 +123,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
         int number = getPointNumberFromMap(x, y);
 
         if(number != -1){
+            if(road != NULL){
+                QMessageBox messageBox;
+                messageBox.information(0, "Info", "Nie można zmieniać położenia punktów podczas lub po obliczeniach, zresetuj algorytm!");
+                messageBox.setFixedSize(500,200);
+                return;
+            }
             this->currentItemHold = number;
         }
     }
@@ -205,6 +212,13 @@ void MainWindow::on_backButton_5_clicked()
     int height = ui->image->geometry().height();
 
     ui->image->setPixmap(map.getMap(width , height ));
+
+    if(road != NULL){
+        delete road;
+
+        road = NULL;
+    }
+
     ui->stackedWidget->setCurrentIndex(4);
 }
 

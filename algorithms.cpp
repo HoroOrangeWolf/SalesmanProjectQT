@@ -9,9 +9,11 @@ Algorithms::Algorithms()
 bool Algorithms::contain(const int q, int *visited, const int n)
 {
     int i;
+
     for (i = 0; i < n; i++)
         if (*(visited+i) == q)
             return true;
+
     return false;
 }
 
@@ -477,7 +479,7 @@ void Algorithms::BruteForce(Road *road){
 
        for(q=0;q<siln && road->work;q++)
        {
-           next_permutation(visted+1, N-2);
+           next_permutation(visted + 1, N - 1);
 
            total_distance2 = 0;
 
