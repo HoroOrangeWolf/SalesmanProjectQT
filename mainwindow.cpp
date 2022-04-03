@@ -110,7 +110,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event){
          p.setX(p.getX() + p.getX()*((1000.f - width)/(1000.f - (1000.f - width))));
          p.setY(p.getY() + p.getY()*((1000.f - height)/(1000.f - (1000.f - height))));
 
-         ui->image->setPixmap(map.getMap(300, ui->image->height()));
+         ui->image->setPixmap(map.getMap(ui->image->height(), ui->image->height()));
     }
 }
 
