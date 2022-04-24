@@ -12,11 +12,11 @@ class Map
 {
 private:
     QPixmap image;
-    std::vector<Road> roads;
+    std::vector<Road*> roads;
 public:
     Map();
     QPixmap& getMap(int width, int height);
-    void addRoad(Road r);
+    void addRoad(Road *r);
     void clear();
 };
 

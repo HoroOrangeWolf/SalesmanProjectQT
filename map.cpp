@@ -25,10 +25,32 @@ QPixmap& Map::getMap(int width, int height){
     QPen penDefault = p.pen();
 
     QPen pen(QColor::fromRgb(179, 87, 27), 2);
+    QPen pen1(QColor::fromRgb(0, 255, 0), 2);
+    QPen pen2(QColor::fromRgb(0, 0, 255), 2);
+    QPen pen3(QColor::fromRgb(128, 128, 128), 2);
+
     p.setPen(pen);
 
     for(unsigned long long i = 0; i < roads.size(); ++i){
-        Road &road = roads[i];
+        Road &road = *roads[i];
+
+        if(!*road.isVisible)
+            continue;
+
+        switch(i){
+            case 0:
+                p.setPen(pen);
+            break;
+            case 1:
+                p.setPen(pen1);
+            break;
+            case 2:
+                p.setPen(pen2);
+            break;
+            case 3:
+                p.setPen(pen3);
+            break;
+        }
 
         QLineF lines[road.count];
 
@@ -71,13 +93,14 @@ QPixmap& Map::getMap(int width, int height){
     return this->image;
 }
 
-void Map::addRoad(Road r){
+void Map::addRoad(Road *r){
     this->roads.push_back(r);
 }
 
 void Map::clear(){
     for(unsigned i=0; i < this->roads.size(); ++i){
-        Road road = this->roads.at(i);
+        Road *road = this->roads.at(i);
+        delete road;
     }
     this->roads.clear();
 }

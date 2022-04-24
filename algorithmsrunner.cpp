@@ -45,3 +45,7 @@ void AlgorithmsRunner::runSingleAlgorithm(AlghoritmType name, Road *road){
     road -> endTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     emit sendDataToMain(algName, road);
 }
+
+void AlgorithmsRunner::runAllAlgorithms(Road *road[4]){
+
+}

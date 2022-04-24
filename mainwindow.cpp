@@ -171,6 +171,11 @@ void MainWindow::on_manualFillDataButton_clicked()
 void MainWindow::on_pushButton_clicked()
 {
     current = AlghoritmType::BRUTE_FORCE;
+    this->isAllAlgorithmsRunning = false;
+    ui->checkBox->hide();
+    ui->checkBox_2->hide();
+    ui->checkBox_3->hide();
+    ui->checkBox_4->hide();
     ui->stackedWidget->setCurrentIndex(5);
 }
 
@@ -206,6 +211,7 @@ void MainWindow::on_backButton_5_clicked()
         messageBox.setFixedSize(500,200);
         return;
     }
+
     map.clear();
     ui->valueList->clear();
     int width = ui->image->geometry().width();
@@ -331,8 +337,9 @@ void MainWindow::addTimes(QString name, Road *road){
     widget->addItem(name);
     widget->addItem(time);
     widget->addItem(distance);
-    this->map.clear();
-    this->map.addRoad(*road);
+
+//    this->map.clear();
+    this->map.addRoad(road);
 
     int width = ui->image->geometry().width();
     int height = ui->image->geometry().height();
@@ -402,6 +409,42 @@ void MainWindow::on_startButton_clicked()
         QMessageBox messageBox;
         messageBox.critical(0,"Error","Brak punktów dodanych do programu!");
         messageBox.setFixedSize(500,200);
+        return;
+    }
+
+    if(this->isAllAlgorithmsRunning){
+
+        roads[0] = new Road();
+        Road *r = roads[0];
+
+        *r->isVisible = ui->checkBox->isChecked();
+
+        roads[1] = new Road();
+        Road *r1 = roads[1];
+
+        *r1->isVisible = ui->checkBox_2->isChecked();
+
+
+        roads[2] = new Road();
+        Road *r2 = roads[2];
+
+        *r2->isVisible = ui->checkBox_3->isChecked();
+
+
+//        roads[3] = new Road();
+//        Road *r3 = roads[3];
+
+
+        QThread *th1 = QThread::create([r] {runner->runSingleAlgorithm(AlghoritmType::BRUTE_FORCE, r); });
+
+        QThread *th2 = QThread::create([r1] {runner->runSingleAlgorithm(AlghoritmType::NEAREST_NEIGHBOUR, r1); });
+
+        QThread *th3 = QThread::create([r2] {runner->runSingleAlgorithm(AlghoritmType::GENETIC, r2); });
+
+
+        th1->start();
+        th2->start();
+        th3->start();
         return;
     }
 
@@ -525,6 +568,11 @@ void MainWindow::on_pushButton_8_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     current = AlghoritmType::NEAREST_NEIGHBOUR;
+    this->isAllAlgorithmsRunning = false;
+    ui->checkBox->hide();
+    ui->checkBox_2->hide();
+    ui->checkBox_3->hide();
+    ui->checkBox_4->hide();
     ui->stackedWidget->setCurrentIndex(5);
 }
 
@@ -532,6 +580,11 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_pushButton_3_clicked()
 {
     current = AlghoritmType::GENETIC;
+    this->isAllAlgorithmsRunning = false;
+    ui->checkBox->hide();
+    ui->checkBox_2->hide();
+    ui->checkBox_3->hide();
+    ui->checkBox_4->hide();
     ui->stackedWidget->setCurrentIndex(5);
 }
 
@@ -558,5 +611,44 @@ void MainWindow::on_stopButton_clicked()
         ui->valueList->addItem(container);
     }
 
+}
+
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    this->isAllAlgorithmsRunning = true;
+
+    ui->checkBox->show();
+    ui->checkBox_2->show();
+    ui->checkBox_3->show();
+    ui->checkBox_4->show();
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+
+void MainWindow::on_checkBox_stateChanged(int arg1)
+{
+   *roads[0]->isVisible = ui->checkBox->isChecked();
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+    ui->image->setPixmap(map.getMap(width , height ));
+}
+
+
+void MainWindow::on_checkBox_2_stateChanged(int arg1)
+{
+    *roads[1]->isVisible = ui->checkBox_2->isChecked();
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+    ui->image->setPixmap(map.getMap(width , height ));
+}
+
+
+void MainWindow::on_checkBox_3_stateChanged(int arg1)
+{
+    *roads[2]->isVisible = ui->checkBox_3->isChecked();
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+    ui->image->setPixmap(map.getMap(width , height ));
 }
 

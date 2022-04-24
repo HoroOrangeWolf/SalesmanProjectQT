@@ -13,6 +13,7 @@ public:
     int *computedRoad = NULL;
     bool isDone = false;
     bool work = true;
+    bool *isVisible = new bool {true};
     long long startTime = 0;
     long long endTime = 0;
     Road();

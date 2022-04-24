@@ -30,7 +30,7 @@ private:
     void resizeEvent(QResizeEvent*) override;
     int currentItemHold = -1;
     AlghoritmType current;
-    std::vector<Road*> roads;
+    Road *roads[4];
     Road *road = NULL;
     QThread *thread = NULL;
     bool isAllAlgorithmsRunning = false;
@@ -84,6 +84,14 @@ private slots:
     void on_pushButton_3_clicked();
 
     void on_stopButton_clicked();
+
+    void on_pushButton_5_clicked();
+
+    void on_checkBox_stateChanged(int arg1);
+
+    void on_checkBox_2_stateChanged(int arg1);
+
+    void on_checkBox_3_stateChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;

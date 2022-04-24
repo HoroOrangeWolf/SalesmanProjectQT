@@ -20,6 +20,7 @@ class AlgorithmsRunner : public QObject
 public:
     explicit AlgorithmsRunner(QObject *parent = nullptr);
     void runSingleAlgorithm(AlghoritmType name, Road *road);
+    void runAllAlgorithms(Road *road[4]);
 
 signals:
     void sendDataToMain(QString name, Road *road);
