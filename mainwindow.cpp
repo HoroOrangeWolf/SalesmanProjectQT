@@ -205,6 +205,34 @@ void MainWindow::on_backButton_4_clicked()
 
 void MainWindow::on_backButton_5_clicked()
 {
+
+    if(this->isAllAlgorithmsRunning){
+
+        for(int i = 0; i < 4; i++){
+            if(roads[i]==NULL)
+                continue;
+
+            Road *ro = roads[i];
+
+            if(!ro->isDone && ro->work){
+                QMessageBox messageBox;
+                messageBox.information(0, "Info", "Poczekaj aż algorytm zakończy prace!");
+                messageBox.setFixedSize(500,200);
+                return;
+            }
+
+        }
+
+        map.clear();
+        ui->valueList->clear();
+        int width = ui->image->geometry().width();
+        int height = ui->image->geometry().height();
+
+        ui->image->setPixmap(map.getMap(width , height ));
+        ui->stackedWidget->setCurrentIndex(4);
+        return;
+    }
+
     if(road!= NULL && !road->isDone && road->work){
         QMessageBox messageBox;
         messageBox.information(0, "Info", "Poczekaj aż algorytm zakończy prace!");
@@ -218,12 +246,6 @@ void MainWindow::on_backButton_5_clicked()
     int height = ui->image->geometry().height();
 
     ui->image->setPixmap(map.getMap(width , height ));
-
-    if(road != NULL){
-        delete road;
-
-        road = NULL;
-    }
 
     ui->stackedWidget->setCurrentIndex(4);
 }
@@ -592,25 +614,27 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_stopButton_clicked()
 {
     if(this->isAllAlgorithmsRunning){
+
+        for(int i = 0; i < 4; ++i){
+            Road *ro = roads[i];
+            if(ro==NULL)
+                continue;
+
+            if(ro == NULL && i==0){
+                QMessageBox messageBox;
+                messageBox.information(0, "Info", "Żaden algorytm nie pracuje teraz!");
+                messageBox.setFixedSize(500,200);
+            }else{
+                ro->work = false;
+
+                QString container = "Kończenie pracy algorytmów... Prosze czekać...";
+
+                ui->valueList->addItem(container);
+            }
+        }
+
         return;
     }
-
-    if(road == NULL){
-        QMessageBox messageBox;
-        messageBox.information(0, "Info", "Żaden algorytm nie pracuje teraz!");
-        messageBox.setFixedSize(500,200);
-    }else if(road->isDone){
-        QMessageBox messageBox;
-        messageBox.information(0, "Info", "Algorytm zakończył już swoją prace!");
-        messageBox.setFixedSize(500,200);
-    }else{
-        road->work = false;
-
-        QString container = "Kończenie pracy algorytmów... Prosze czekać...";
-
-        ui->valueList->addItem(container);
-    }
-
 }
 
 

@@ -30,7 +30,7 @@ private:
     void resizeEvent(QResizeEvent*) override;
     int currentItemHold = -1;
     AlghoritmType current;
-    Road *roads[4];
+    Road *roads[4] = {NULL, NULL, NULL, NULL};
     Road *road = NULL;
     QThread *thread = NULL;
     bool isAllAlgorithmsRunning = false;
