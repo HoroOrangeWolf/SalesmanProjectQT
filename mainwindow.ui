@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1124</width>
+    <width>1176</width>
     <height>1079</height>
    </rect>
   </property>
@@ -55,7 +55,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>22</pointsize>
+              <pointsize>28</pointsize>
              </font>
             </property>
             <property name="text">
@@ -80,6 +80,11 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Uzupełnij dane</string>
             </property>
@@ -93,6 +98,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Załaduj dane z pliku</string>
             </property>
@@ -105,6 +115,11 @@
               <width>0</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Zapisz dane do pliku</string>
@@ -125,6 +140,11 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Przejdź do komiwojażera</string>
             </property>
@@ -143,6 +163,11 @@
               <width>16777215</width>
               <height>16777215</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Wyjdź</string>
@@ -180,6 +205,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Generowanie automatyczne</string>
             </property>
@@ -193,6 +223,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Ręczne wprowadzanie danych</string>
             </property>
@@ -205,6 +240,11 @@
               <width>0</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Powrót</string>
@@ -242,6 +282,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Wprowadź liczbę punktów</string>
             </property>
@@ -249,6 +294,11 @@
           </item>
           <item>
            <widget class="QLineEdit" name="pointsNumber">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="inputMask">
              <string/>
             </property>
@@ -265,6 +315,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Generuj</string>
             </property>
@@ -277,6 +332,11 @@
               <width>0</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Powrót</string>
@@ -302,6 +362,11 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
            </widget>
           </item>
           <item row="1" column="0">
@@ -311,6 +376,11 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
            </widget>
           </item>
@@ -378,6 +448,11 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
          </widget>
         </item>
         <item row="1" column="0">
@@ -408,6 +483,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Dodaj</string>
             </property>
@@ -420,6 +500,11 @@
               <width>0</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Usuń</string>
@@ -439,6 +524,11 @@
               <width>100</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Powrót</string>
@@ -478,7 +568,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>18</pointsize>
+              <pointsize>28</pointsize>
              </font>
             </property>
             <property name="text">
@@ -503,6 +593,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Brute Force</string>
             </property>
@@ -521,6 +616,11 @@
               <width>16777215</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Nearest Neighbor</string>
@@ -541,6 +641,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Genetic</string>
             </property>
@@ -559,6 +664,11 @@
               <width>16777215</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Algorytm 4</string>
@@ -579,6 +689,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Włącz wszystkie i porównaj</string>
             </property>
@@ -597,6 +712,11 @@
               <width>16777215</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Powrót</string>
@@ -619,6 +739,11 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
            </widget>
           </item>
           <item>
@@ -634,6 +759,11 @@
               <width>0</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Start</string>
@@ -654,6 +784,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Stop</string>
             </property>
@@ -673,6 +808,11 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Powrót</string>
             </property>
@@ -680,6 +820,11 @@
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Brute Force</string>
             </property>
@@ -693,6 +838,11 @@
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_2">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Najbliższego sąsiada</string>
             </property>
@@ -703,6 +853,11 @@
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_3">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Genetyczny</string>
             </property>
@@ -713,6 +868,11 @@
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_4">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Grafowy</string>
             </property>
@@ -753,7 +913,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1124</width>
+     <width>1176</width>
      <height>21</height>
     </rect>
    </property>
