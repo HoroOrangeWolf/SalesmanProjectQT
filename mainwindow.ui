@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1176</width>
+    <width>1261</width>
     <height>1079</height>
    </rect>
   </property>
@@ -24,7 +24,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="mainMenuPage">
        <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -671,7 +671,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Algorytm 4</string>
+             <string>TSP</string>
             </property>
            </widget>
           </item>
@@ -913,7 +913,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1176</width>
+     <width>1261</width>
      <height>21</height>
     </rect>
    </property>

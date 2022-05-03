@@ -426,6 +426,7 @@ void MainWindow::on_addButton_clicked()
 void MainWindow::on_startButton_clicked()
 {
 
+    this->map.clear();
     if(PointContainer::getContainer()->empty())
     {
         QMessageBox messageBox;
@@ -453,8 +454,10 @@ void MainWindow::on_startButton_clicked()
         *r2->isVisible = ui->checkBox_3->isChecked();
 
 
-//        roads[3] = new Road();
-//        Road *r3 = roads[3];
+        roads[3] = new Road();
+        Road *r3 = roads[3];
+
+        *r3->isVisible = ui->checkBox_4->isChecked();
 
 
         QThread *th1 = QThread::create([r] {runner->runSingleAlgorithm(AlghoritmType::BRUTE_FORCE, r); });
@@ -463,10 +466,12 @@ void MainWindow::on_startButton_clicked()
 
         QThread *th3 = QThread::create([r2] {runner->runSingleAlgorithm(AlghoritmType::GENETIC, r2); });
 
+        QThread *th4 = QThread::create([r3] {runner->runSingleAlgorithm(AlghoritmType::TSP, r3); });
 
         th1->start();
         th2->start();
         th3->start();
+        th4->start();
         return;
     }
 
@@ -671,6 +676,27 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1)
 void MainWindow::on_checkBox_3_stateChanged(int arg1)
 {
     *roads[2]->isVisible = ui->checkBox_3->isChecked();
+    int width = ui->image->geometry().width();
+    int height = ui->image->geometry().height();
+    ui->image->setPixmap(map.getMap(width , height ));
+}
+
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    current = AlghoritmType::TSP;
+    this->isAllAlgorithmsRunning = false;
+    ui->checkBox->hide();
+    ui->checkBox_2->hide();
+    ui->checkBox_3->hide();
+    ui->checkBox_4->hide();
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+
+void MainWindow::on_checkBox_4_stateChanged(int arg1)
+{
+    *roads[3]->isVisible = ui->checkBox_4->isChecked();
     int width = ui->image->geometry().width();
     int height = ui->image->geometry().height();
     ui->image->setPixmap(map.getMap(width , height ));

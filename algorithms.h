@@ -4,6 +4,8 @@
 #include "road.h"
 #include <cmath>
 #include <time.h>
+#include <vector>
+#include <limits>
 
 struct array_struct
 {
@@ -21,12 +23,14 @@ private:
     static void swap(int *i, int *q);
     static int compare(const void *a, const void *b);
     static bool contain(const int q, int *visited, const int n);
+    static void TSP(bool *visited, int &shptr, int n, double **W, double &dh, double &d, int &sptr, Road *road, int *S, int *Sh, int v);
 public:
     Algorithms();
     static void BruteForce(Road *road);
     static void NearestNeighbor(Road *road);
     static void Genetic(Road *road);
     static double computeDistance(Road *road);
+    static void TSPPrint(Road *road);
 };
 
 #endif // ALGORITHMS_H

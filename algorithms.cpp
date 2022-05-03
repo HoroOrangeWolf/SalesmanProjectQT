@@ -17,6 +17,42 @@ bool Algorithms::contain(const int q, int *visited, const int n)
     return false;
 }
 
+void Algorithms::TSP(bool *visited, int &shptr, int n, double **W, double &dh, double &d, int &sptr, Road *road, int *S, int *Sh, int v)
+{
+    if(!road->work)
+        return;
+
+    int u;
+
+    Sh[shptr++] = v;
+
+    if (shptr < n)
+    {
+        visited[v] = true;
+        for (u = 0; u < n; u++)
+            if (!visited[u])
+            {
+                dh += W[v][u];
+                TSP(visited, shptr, n, W, dh, d, sptr, road, S, Sh, u);
+                dh -= W[v][u];
+            }
+        visited[v] = false;
+    }
+    else
+    {
+        dh += W[v][0];
+        if (dh < d)
+        {
+            d = dh;
+            for (u = 0; u < shptr; u++)
+                S[u] = Sh[u];
+            sptr = shptr;
+        }
+        dh -= W[v][0];
+    }
+    shptr--;
+}
+
 void Algorithms::swap(int *i, int *q){
     int buffor=*i;
     *i=*q;
@@ -329,7 +365,7 @@ void Algorithms::NearestNeighbor(Road *road) {
         return;
     }
 
-    for (i = 0; i < N - 1 && road->work; i++) {
+    for (i = 0; i < N && road->work; i++) {
         double najmniejsze = 0;
         int bmc = 0;
         for (q = 1; q < N; q++)
@@ -518,4 +554,57 @@ void Algorithms::BruteForce(Road *road){
        delete [] visted;
        delete [] distance;
        road->isDone = true;
+}
+
+void Algorithms::TSPPrint(Road *road){
+
+    unsigned long long N = (unsigned long long) road->count;
+
+    Point *tab = road->points;
+    int *computedRoad=road->computedRoad;
+    double **distance = new double * [N];
+    bool *visited = new bool[N];
+    int *s = new int[N];
+    int *sh = new int[N];
+
+    unsigned long long  i = 0, q = 0;
+
+    for (i = 0; i < N; i++)
+        distance[i] = new double [N];
+
+    for (i = 0; i < N && road->work; i++)
+        for (q = 0; q < N; q++)
+            distance[i][q] = sqrt((tab[i].getX() - tab[q].getX())*(tab[i].getX() - tab[q].getX()) + (tab[i].getY() - tab[q].getY())*(tab[i].getY() - tab[q].getY()));
+
+    int sptr = 0, shptr = 0;
+    double dh = 0, d = std::numeric_limits<double>::max();
+
+    if(!road->work)
+    {
+        for(i=0;i<N;i++)
+            delete [] distance[i];
+
+        delete [] distance;
+        delete [] s;
+        delete [] sh;
+        delete [] visited;
+        return;
+    }
+
+    TSP(visited, shptr, (int)N, distance,dh, d,sptr, road,s, sh, 0);
+
+    if(road->work)
+        for(int i =0; i < N; ++i)
+            computedRoad[i] = s[i];
+
+    for(i=0;i<N;i++)
+        delete [] distance[i];
+
+    delete [] distance;
+    delete [] s;
+    delete [] sh;
+    delete [] visited;
+
+    road->isDone = true;
+
 }

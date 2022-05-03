@@ -38,14 +38,14 @@ void AlgorithmsRunner::runSingleAlgorithm(AlghoritmType name, Road *road){
             Algorithms::Genetic(road);
             algName = "Genetic";
             break;
+        case AlghoritmType::TSP:
+            Algorithms::TSPPrint(road);
+            algName = "TSP";
+            break;
         default:
             break;
     }
 
     road -> endTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     emit sendDataToMain(algName, road);
-}
-
-void AlgorithmsRunner::runAllAlgorithms(Road *road[4]){
-
 }
