@@ -24,7 +24,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="mainMenuPage">
        <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -671,7 +671,7 @@
              </font>
             </property>
             <property name="text">
-             <string>TSP</string>
+             <string>Graph</string>
             </property>
            </widget>
           </item>

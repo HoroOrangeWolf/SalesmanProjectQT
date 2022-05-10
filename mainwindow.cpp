@@ -172,6 +172,7 @@ void MainWindow::on_pushButton_clicked()
 {
     current = AlghoritmType::BRUTE_FORCE;
     this->isAllAlgorithmsRunning = false;
+    ui->listWidget->clear();
     ui->checkBox->hide();
     ui->checkBox_2->hide();
     ui->checkBox_3->hide();
@@ -466,7 +467,7 @@ void MainWindow::on_startButton_clicked()
 
         QThread *th3 = QThread::create([r2] {runner->runSingleAlgorithm(AlghoritmType::GENETIC, r2); });
 
-        QThread *th4 = QThread::create([r3] {runner->runSingleAlgorithm(AlghoritmType::TSP, r3); });
+        QThread *th4 = QThread::create([r3] {runner->runSingleAlgorithm(AlghoritmType::Graph, r3); });
 
         th1->start();
         th2->start();
@@ -596,6 +597,7 @@ void MainWindow::on_pushButton_2_clicked()
 {
     current = AlghoritmType::NEAREST_NEIGHBOUR;
     this->isAllAlgorithmsRunning = false;
+    ui->listWidget->clear();
     ui->checkBox->hide();
     ui->checkBox_2->hide();
     ui->checkBox_3->hide();
@@ -608,6 +610,7 @@ void MainWindow::on_pushButton_3_clicked()
 {
     current = AlghoritmType::GENETIC;
     this->isAllAlgorithmsRunning = false;
+    ui->listWidget->clear();
     ui->checkBox->hide();
     ui->checkBox_2->hide();
     ui->checkBox_3->hide();
@@ -646,7 +649,7 @@ void MainWindow::on_stopButton_clicked()
 void MainWindow::on_pushButton_5_clicked()
 {
     this->isAllAlgorithmsRunning = true;
-
+    ui->listWidget->clear();
     ui->checkBox->show();
     ui->checkBox_2->show();
     ui->checkBox_3->show();
@@ -684,8 +687,9 @@ void MainWindow::on_checkBox_3_stateChanged(int arg1)
 
 void MainWindow::on_pushButton_4_clicked()
 {
-    current = AlghoritmType::TSP;
+    current = AlghoritmType::Graph;
     this->isAllAlgorithmsRunning = false;
+    ui->listWidget->clear();
     ui->checkBox->hide();
     ui->checkBox_2->hide();
     ui->checkBox_3->hide();

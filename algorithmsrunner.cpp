@@ -38,9 +38,9 @@ void AlgorithmsRunner::runSingleAlgorithm(AlghoritmType name, Road *road){
             Algorithms::Genetic(road);
             algName = "Genetic";
             break;
-        case AlghoritmType::TSP:
+        case AlghoritmType::Graph:
             Algorithms::TSPPrint(road);
-            algName = "TSP";
+            algName = "Graph";
             break;
         default:
             break;

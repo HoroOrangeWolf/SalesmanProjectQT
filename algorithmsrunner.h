@@ -11,7 +11,7 @@ enum AlghoritmType{
     BRUTE_FORCE,
     NEAREST_NEIGHBOUR,
     GENETIC,
-    TSP,
+    Graph,
     ALL_ALGORITHMS
 };
 
