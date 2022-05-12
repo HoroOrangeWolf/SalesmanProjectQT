@@ -28,9 +28,13 @@ void MainWindow::resizeEvent(QResizeEvent*)
 
 bool MainWindow::isMouseOnTheMap(int x1, int y1){
     int point_x1, point_y1, point_x2, point_y2;
-
     ui->image->geometry().getCoords(&point_x1, &point_y1, &point_x2, &point_y2);
-
+    int point_x1s, point_y1s, point_x2s, point_y2s;
+    this->geometry().getCoords(&point_x1s, &point_y1s, &point_x2s, &point_y2s);
+    point_x1 += point_x1s;
+    point_y1 += point_y1s;
+    point_x2 += point_x1s;
+    point_y2 += point_y1s;
     return ui->stackedWidget->currentIndex() == 5 && x1 >= point_x1 && y1 >= point_y1 && x1 <= point_x2 && y1 <= point_y2;
 }
 
@@ -41,6 +45,10 @@ Point MainWindow::getRealPositionOnTheMap(int x1, int y1){
 
 
     ui->image->geometry().getCoords(&point_x1, &point_y1, &point_x2, &point_y2);
+    int point_x1s, point_y1s, point_x2s, point_y2s;
+    this->geometry().getCoords(&point_x1s, &point_y1s, &point_x2s, &point_y2s);
+    point_x1 += point_x1s;
+    point_y1 += point_y1s - 40;
 
     p.setX(x1 - point_x1);
     p.setY(y1 - point_y1);
@@ -71,7 +79,6 @@ int MainWindow::getPointNumberFromMap(int x, int y){
         Point p2 = points->at(i);
 
         double distance = sqrt((p.getX() - p2.getX())*(p.getX() - p2.getX()) + (p.getY() - p2.getY())*(p.getY()  - p2.getY()));
-        qDebug() << distance;
         if(distance < 20.f)
             return  i;
     }
@@ -87,6 +94,11 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event){
     int x = event->globalPosition().x(), y = event->globalPosition().y();
 
     Point mouseP = getRealPositionOnTheMap(x, y);
+
+    if(!isMouseOnTheMap(x,y)){
+        this->currentItemHold = -1;
+        return;
+    }
 
     if(this->currentItemHold != -1){
 
@@ -104,9 +116,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event){
 
          p.setX(mouseP.getX() - 20*(1.f - widthRatio));
          p.setY(mouseP.getY() - 40*heightRatio);
-
-         qDebug() << widthRatio;
-
          p.setX(p.getX() + p.getX()*((1000.f - width)/(1000.f - (1000.f - width))));
          p.setY(p.getY() + p.getY()*((1000.f - height)/(1000.f - (1000.f - height))));
 
