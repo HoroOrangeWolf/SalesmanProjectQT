@@ -434,6 +434,23 @@ double Algorithms::computeDistance(Road *road){
     return distance;
 }
 
+double Algorithms::computeDistanceBetweenStartAndEnd(Road *road)
+{
+    if(road->count<=1)
+        return 0;
+    Point p1 = road->points[0];
+    Point p2 = road->points[road->count-1];
+
+    double distance = 0.f;
+    for(int i = 0; i < road->count - 1; ++i){
+        Point p1 = road->points[road->computedRoad[i]];
+        Point p2 = road->points[road->computedRoad[i + 1]];
+        distance += sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX()) + (p1.getY() - p2.getY())*(p1.getY() - p2.getY()));
+    }
+
+    return sqrt((p1.getX() - p2.getX())*(p1.getX() - p2.getX()) + (p1.getY() - p2.getY())*(p1.getY() - p2.getY())) + distance;
+}
+
 void Algorithms::next_permutation(int *first, int n){
     int i=n-2;
 

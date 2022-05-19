@@ -30,6 +30,7 @@ public:
     static void NearestNeighbor(Road *road);
     static void Genetic(Road *road);
     static double computeDistance(Road *road);
+    static double computeDistanceBetweenStartAndEnd(Road *road);
     static void TSPPrint(Road *road);
 };
 

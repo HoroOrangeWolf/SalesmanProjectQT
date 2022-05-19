@@ -357,18 +357,21 @@ void MainWindow::addTimes(QString name, Road *road){
 
     long long elaps = road->endTime - road->startTime;
 
-    QString time = "Time: ", distance = "Distance: ";
+    QString time = "Time: ", distance = "Distance: ", distanceWithEnd = "Distance + EndPoint: ";
 
     time += QString::number(elaps);
     time += " ms";
 
-    double computedDistance = ((int)Algorithms::computeDistance(road)*100)/100;
+    double computedDistance = ((int)Algorithms::computeDistance(road)*100)/100,
+            computedDistanceBetweenEndAndStart = Algorithms::computeDistanceBetweenStartAndEnd(road);
 
     distance += QString::number(computedDistance);
+    distanceWithEnd += QString::number((int)computedDistanceBetweenEndAndStart);
 
     widget->addItem(name);
     widget->addItem(time);
     widget->addItem(distance);
+    widget->addItem(distanceWithEnd);
 
 //    this->map.clear();
     this->map.addRoad(road);
